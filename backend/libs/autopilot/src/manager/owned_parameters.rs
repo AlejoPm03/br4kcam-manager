@@ -76,6 +76,11 @@ pub(crate) fn establish_baseline_from_cache(cache: &IndexMap<String, Parameter>)
     observe_cached(cache, ObserveSource::BulkSync);
 }
 
+/// Reports owned parameters that already differ from the saved setup on first connect.
+pub(crate) fn report_drifts_on_connect(cache: &IndexMap<String, Parameter>) {
+    observe_cached(cache, ObserveSource::Connect);
+}
+
 pub(crate) async fn reevaluate_after_apply() {
     let Ok(component) = crate::mavlink::component() else {
         return;
